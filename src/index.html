@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+	    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	    <meta name="apple-mobile-web-app-capable" content="yes" />	
+
+		<link rel="stylesheet" href="public/stylesheet/style.css">
+    </head>
+
+    <body>
+    	<div id="app" class="app"></div>
+
+        <script src="public/vendors/system.js"></script>
+		<script src="public/vendors/polyfill.js"></script>
+		<script src="public/vendors/react.js"></script>
+		<script src="public/vendors/react-dom.js"></script>
+        <script>
+        // set our baseURL reference path
+        System.config({
+            packages: {
+                js: {
+                    format: 'register',
+                    defaultExtension: 'js'
+                },
+            },
+            meta: {
+                // our modules have been transpiled to commonJS
+                'public/js/*.js': {format: 'cjs'}
+            }
+        });
+
+         System.import('public/js/all.min.js').then(null, console.error.bind(console));
+        </script>
+		<!-- <script src="public/js/all.min.js"></script> -->
+    </body>
+</html>
+
