@@ -9,6 +9,7 @@ var browserSync = require('browser-sync');
 var del = require('del');
 var es2015 = require('babel-preset-es2015');
 var react = require('babel-preset-react');
+var cleanCSS = require('gulp-clean-css');
 
 gulp.task('default', ['build']);
 
@@ -20,18 +21,18 @@ gulp.task('build', [
   'libs',
   'template',
   'js',
-  'stylesheets',
+  'css',
   'serve'
 ]);
 
-gulp.task('serve', ['template', 'stylesheets', 'js'], function() {
+gulp.task('serve', ['template', 'css', 'js'], function() {
 
   browserSync.init({
       server: "./dist"
   });
 
   gulp.watch('./src/**/*.js*', ['js']);
-  gulp.watch('./src/scss/**/*.scss', ['stylesheets']);
+  gulp.watch('./src/scss/**/*.scss', ['css']);
 
   gulp.watch("dist/public/*.html").on('change', browserSync.reload);
   gulp.watch("dist/public/js/*.js").on('change', browserSync.reload);
@@ -53,12 +54,25 @@ gulp.task('vendors', function() {
 gulp.task('images', function() {
   return gulp.src('./src/assets/**/*')
     .pipe(gulp.dest('./dist/public/assets'));
-})
+});
+
+gulp.task('css', ['minify-css'], function() {
+  return del.sync(['./temp-css/**']);
+});
+
+gulp.task('minify-css', ['stylesheets'], function() {
+  return gulp.src('./temp-css/*.css')
+    .pipe(cleanCSS({debug: true}, function(details) {
+      console.log(details.name + ': ' + details.stats.originalSize);
+      console.log(details.name + ': ' + details.stats.minifiedSize);
+    }))
+    .pipe(gulp.dest('./dist/public/stylesheet'));
+});
 
 gulp.task('stylesheets', function() {
   return gulp.src('./src/scss/**/*.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('./dist/public/stylesheet'))
+    .pipe(gulp.dest('./temp-css'))
     .pipe(browserSync.stream());
 });
 
