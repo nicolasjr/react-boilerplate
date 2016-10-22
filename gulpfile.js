@@ -20,8 +20,23 @@ gulp.task('build', [
     'libs',
     'template',
     'js',
-    'stylesheets'
+    'stylesheets',
+    'serve'
 ]);
+
+gulp.task('serve', ['template', 'stylesheets', 'js'], function() {
+
+    browserSync.init({
+        server: "./dist"
+    });
+    
+    gulp.watch('./src/**/*.js*', ['js']);
+    gulp.watch('./src/scss/*/*.scss', ['stylesheets']);
+
+    gulp.watch("dist/public/*.html").on('change', browserSync.reload);
+    gulp.watch("dist/public/js/*.js").on('change', browserSync.reload);
+    gulp.watch("dist/public/stylesheet/*.css").on('change', browserSync.reload);
+});
 
 gulp.task('libs', function(){
     return gulp.src([
@@ -95,9 +110,9 @@ gulp.task('eslint', function() {
 
 gulp.task('watch', function() {
     gulp.watch('./src/**/*.html', ['template']);
-    gulp.watch('./src/**/*.js', ['eslint']);
-    gulp.watch('./temp/**/*.js', ['compress']);
+    gulp.watch('./src/**/*.js*', ['js']);
     gulp.watch('./src/scss/*/*.scss', ['stylesheets']);
+    // gulp.watch('./src/**/*.js*', ['eslint']);
 });
 
 
