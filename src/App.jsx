@@ -1,5 +1,4 @@
 class App extends React.Component {
-
 	constructor(props) {
 		super(props);
 	}
@@ -7,7 +6,7 @@ class App extends React.Component {
 	render() {
 		return (
 			<div>
-				Your app will be here. 
+				Your app will be here.
 			</div>
 		);
 	}
