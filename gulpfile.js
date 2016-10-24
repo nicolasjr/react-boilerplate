@@ -25,7 +25,7 @@ gulp.task('build', [
   'serve'
 ]);
 
-gulp.task('serve', ['template', 'css', 'js'], function() {
+gulp.task('serve', ['template', 'css', 'js', 'data'], function() {
 
   browserSync.init({
       server: './dist'
@@ -96,11 +96,11 @@ gulp.task('data', function() {
     .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('js', ['rename-webpack'], function() {
+gulp.task('js', ['create-js'], function() {
   return del.sync(['./temp/**']);
 });
 
-gulp.task('rename-webpack', ['webpack'], function() {
+gulp.task('create-js', ['webpack'], function() {
   return gulp.src(['./temp/webpack/*'])
     .pipe(rename(function(path) {
       path.basename = 'all.min';
