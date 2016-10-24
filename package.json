@@ -28,15 +28,17 @@
     "gulp-babel": "^6.1.2",
     "gulp-browserify": "^0.5.1",
     "gulp-clean-css": "^2.0.13",
-    "gulp-concat": "^2.6.0",
     "gulp-eslint": "^3.0.1",
     "gulp-rename": "^1.2.2",
     "gulp-rimraf": "^0.2.0",
     "gulp-sass": "^2.3.2",
-    "gulp-uglify": "^2.0.0"
+    "gulp-uglify": "^2.0.0",
+    "gulp-webpack": "^1.5.0"
   },
   "dependencies": {
     "babel-polyfill": "^6.16.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
     "systemjs": "^0.19.39"
   }
 }

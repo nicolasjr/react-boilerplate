@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var babel = require('gulp-babel');
-var concat = require('gulp-concat');
 var eslint = require('gulp-eslint');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var uglify = require('gulp-uglify');
+var webpack = require('gulp-webpack');
 var browserSync = require('browser-sync');
 var del = require('del');
 var es2015 = require('babel-preset-es2015');
@@ -42,7 +42,9 @@ gulp.task('serve', ['template', 'css', 'js'], function() {
 gulp.task('libs', function(){
   return gulp.src([
     'node_modules/systemjs/dist/system.js',
-    'node_modules/babel-polyfill/dist/polyfill.js'])
+    'node_modules/babel-polyfill/dist/polyfill.js',
+    'node_modules/react/dist/react.min.js',
+    'node_modules/react-dom/dist/react-dom.min.js'])
     .pipe(gulp.dest('./dist/public/vendors'));
 });
 
@@ -91,19 +93,24 @@ gulp.task('data', function() {
     .pipe(gulp.dest('./dist'))
 });
 
-gulp.task('js', ['compress'], function() {
+gulp.task('js', ['rename-webpack'], function() {
   return del.sync(['./temp/**']);
 });
 
-gulp.task('compress', ['babel'], function() {
-  return gulp.src(['./temp/**/*.js'])
-    .pipe(concat('all.js'))
-    .pipe(uglify())
-    .pipe(rename({
-      suffix: '.min'
+gulp.task('rename-webpack', ['webpack'], function() {
+  return gulp.src(['./temp/webpack/*'])
+    .pipe(rename(function(path) {
+      path.basename = "all.min";
     }))
+    .pipe(uglify())
     .pipe(gulp.dest('./dist/public/js'))
     .pipe(browserSync.stream());
+});
+
+gulp.task('webpack', ['babel'], function() {
+  return gulp.src(['./temp/**/*.js'])
+    .pipe(webpack())
+    .pipe(gulp.dest('./temp/webpack'))
 });
 
 gulp.task('babel', function() {
@@ -126,7 +133,7 @@ gulp.task('watch', function() {
   gulp.watch('./src/**/*.html', ['template']);
   gulp.watch('./src/**/*.js*', ['js']);
   gulp.watch('./src/scss/**/*.scss', ['stylesheets']);
-  // gulp.watch('./src/**/*.js*', ['eslint']);
+  gulp.watch('./src/**/*.js*', ['eslint']);
 });
 
 
