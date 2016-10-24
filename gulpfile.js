@@ -28,15 +28,18 @@ gulp.task('build', [
 gulp.task('serve', ['template', 'css', 'js'], function() {
 
   browserSync.init({
-      server: "./dist"
+      server: './dist'
   });
 
   gulp.watch('./src/**/*.js*', ['js']);
   gulp.watch('./src/scss/**/*.scss', ['css']);
+  gulp.watch('./src/**/*.html', ['template']);
+  gulp.watch('./src/data/*', ['data']);
 
-  gulp.watch("dist/public/*.html").on('change', browserSync.reload);
-  gulp.watch("dist/public/js/*.js").on('change', browserSync.reload);
-  gulp.watch("dist/public/stylesheet/*.css").on('change', browserSync.reload);
+  gulp.watch('dist/public/*.html').on('change', browserSync.reload);
+  gulp.watch('dist/public/js/*.js').on('change', browserSync.reload);
+  gulp.watch('dist/public/stylesheet/*.css').on('change', browserSync.reload);
+  gulp.watch('dist/data/**').on('change', browserSync.reload);
 });
 
 gulp.task('libs', function(){
@@ -100,7 +103,7 @@ gulp.task('js', ['rename-webpack'], function() {
 gulp.task('rename-webpack', ['webpack'], function() {
   return gulp.src(['./temp/webpack/*'])
     .pipe(rename(function(path) {
-      path.basename = "all.min";
+      path.basename = 'all.min';
     }))
     .pipe(uglify())
     .pipe(gulp.dest('./dist/public/js'))
@@ -135,5 +138,4 @@ gulp.task('watch', function() {
   gulp.watch('./src/scss/**/*.scss', ['stylesheets']);
   gulp.watch('./src/**/*.js*', ['eslint']);
 });
-
 
