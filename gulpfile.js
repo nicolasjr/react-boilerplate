@@ -44,8 +44,6 @@ gulp.task('serve', ['template', 'css', 'js', 'data'], function() {
 
 gulp.task('libs', function(){
   return gulp.src([
-    'node_modules/systemjs/dist/system.js',
-    'node_modules/babel-polyfill/dist/polyfill.js',
     'node_modules/react/dist/react.min.js',
     'node_modules/react-dom/dist/react-dom.min.js'])
     .pipe(gulp.dest('./dist/public/vendors'));
