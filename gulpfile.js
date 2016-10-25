@@ -131,9 +131,8 @@ gulp.task('eslint', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/**/*.html', ['template']);
-  gulp.watch('./src/**/*.js*', ['js']);
+  gulp.watch('./src/**/**/*.html', ['template']);
+  gulp.watch('./src/**/**/*.js*', ['js', 'eslint']);
   gulp.watch('./src/scss/**/*.scss', ['stylesheets']);
-  gulp.watch('./src/**/*.js*', ['eslint']);
 });
 
