@@ -1,8 +1,6 @@
 {
   "extends": "airbnb",
   "globals": {
-  	"React": false,
-  	"ReactDOM": false,
   	"document": false
   }
 }

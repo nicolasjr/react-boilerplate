@@ -18,17 +18,24 @@ gulp.task('build', [
   'images',
   'data',
   'vendors',
-  'libs',
   'template',
   'js',
   'css',
   'serve'
 ]);
 
+gulp.task('set-dev-node-env', function() {
+    return process.env.NODE_ENV = 'development';
+});
+
+gulp.task('set-prod-node-env', function() {
+    return process.env.NODE_ENV = 'production';
+});
+
 gulp.task('serve', ['template', 'css', 'js', 'data'], function() {
 
   browserSync.init({
-      server: './dist'
+    server: './dist'
   });
 
   gulp.watch('./src/**/*.js*', ['js']);
@@ -40,13 +47,6 @@ gulp.task('serve', ['template', 'css', 'js', 'data'], function() {
   gulp.watch('dist/public/js/*.js').on('change', browserSync.reload);
   gulp.watch('dist/public/stylesheet/*.css').on('change', browserSync.reload);
   gulp.watch('dist/data/**').on('change', browserSync.reload);
-});
-
-gulp.task('libs', function(){
-  return gulp.src([
-    'node_modules/react/dist/react.min.js',
-    'node_modules/react-dom/dist/react-dom.min.js'])
-    .pipe(gulp.dest('./dist/public/vendors'));
 });
 
 gulp.task('vendors', function() {
@@ -115,7 +115,7 @@ gulp.task('webpack', ['babel'], function() {
 });
 
 gulp.task('babel', function() {
-  return gulp.src('./src/*.js*')
+  return gulp.src(['./src/**/*.js', './src/**/*.jsx'])
     .pipe(babel({
       presets: [react, es2015]
     }))
@@ -124,7 +124,7 @@ gulp.task('babel', function() {
 });
 
 gulp.task('eslint', function() {
-  return gulp.src(['./src/*.js*'])
+  return gulp.src(['./src/**/*.js', './src/**/*.jsx'])
     .pipe(eslint())
     .pipe(eslint.format())
     .pipe(eslint.failAfterError());
