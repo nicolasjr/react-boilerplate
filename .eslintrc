@@ -1,7 +1,17 @@
 {
   "extends": "airbnb",
   "globals": {
-  	"document": false
+    "document": false,
+    "after": false,
+    "afterEach": false,
+    "before": false,
+    "beforeEach": false,
+    "describe": false,
+    "it": false,
+    "require": false
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/no-unused-prop-types": [2, { skipShapeProps: true }]
   }
 }
-
